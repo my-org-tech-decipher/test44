@@ -1,0 +1,31 @@
+pull_request_rules:
+  - name: Enforce Two Code Owner Approvals
+    conditions:
+      - "base=main"
+      - "status-success=continuous-integration"
+      - "author.login!=bot"
+      - "closed=false"
+      - "merged=false"
+      - "queue-position=0"
+      - "check-success=Enforce Code Owner Approvals"
+    actions:
+      merge:
+        method: merge
+        strict: smart
+        strict_method: merge
+        commit_message: title+body
+        commit_message_regex: '^(?P<title>.*?)(\n\n(?P<body>.*))?$'
+  - name: Require Two Code Owner Approvals
+    conditions:
+      - "base=main"
+      - "author.login!=bot"
+      - "closed=false"
+      - "merged=false"
+      - "OR":
+          - "approved-reviews-by=@my-org-tech-decipher/team-1>=2"
+          - "approved-reviews-by=@my-org-tech-decipher/team-2>=2"
+          - "approved-reviews-by>=2&review-requested=@my-org-tech-decipher/team-1"
+          - "approved-reviews-by>=2&review-requested=@my-org-tech-decipher/team-2"
+    actions:
+      comment:
+        message: "This PR requires two approvals from code owners (team-1 or team-2)."
