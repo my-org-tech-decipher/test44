@@ -5,19 +5,18 @@ pull_request_rules:
       - "status-success=continuous-integration"
       - "#approved-reviews-by>=2"
       - "author!=bot"
-      - "state=open"
-      - "merged=false"
+      - "-closed"
+      - "-merged"
     actions:
       merge:
         method: merge
-        strict: false
 
   - name: Require Two Code Owner Approvals
     conditions:
       - "base=main"
       - "author!=bot"
-      - "state=open"
-      - "merged=false"
+      - "-closed"
+      - "-merged"
       - "approved-reviews-by~=my-org-tech-decipher/team-1"
       - "approved-reviews-by~=my-org-tech-decipher/team-2"
     actions:
