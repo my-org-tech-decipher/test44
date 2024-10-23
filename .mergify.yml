@@ -4,24 +4,22 @@ pull_request_rules:
       - "base=main"
       - "status-success=continuous-integration"
       - "#approved-reviews-by>=2"
-      - "current-review-requested-reviewer!=None"
       - "author!=bot"
-      - "not closed"
-      - "not merged"
+      - "state=open"
+      - "merged=false"
     actions:
       merge:
         method: merge
-        strict: smart
+        strict: false
 
   - name: Require Two Code Owner Approvals
     conditions:
       - "base=main"
       - "author!=bot"
-      - "not closed"
-      - "not merged"
-      - or:
-          - "approved-reviews-by~=my-org-tech-decipher/team-1 AND #approved-reviews-by-by-team>=2"
-          - "approved-reviews-by~=my-org-tech-decipher/team-2 AND #approved-reviews-by-by-team>=2"
+      - "state=open"
+      - "merged=false"
+      - "approved-reviews-by~=my-org-tech-decipher/team-1"
+      - "approved-reviews-by~=my-org-tech-decipher/team-2"
     actions:
       comment:
-        message: "This PR requires two approvals from code owners (team-1 or team-2)."
+        message: "This PR requires approvals from both team-1 and team-2 members."
